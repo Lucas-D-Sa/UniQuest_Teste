@@ -6,10 +6,9 @@ let isFlipped = false;
 
 const zoomLevel = window.devicePixelRatio;
 
-const speed = zoomLevel * 40;
+const speed = zoomLevel * 2; 
 
 console.log("Nível de Zoom: " + zoomLevel);
-
 
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
@@ -31,9 +30,8 @@ function handleTouchMove(event) {
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
-  
   if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    
+  
     if (deltaX > 0) {
       isFlipped = false;
       image.style.transform = 'scaleX(1)';
@@ -44,7 +42,7 @@ function handleTouchMove(event) {
       positionX -= speed;
     }
   } else {
-   
+    
     if (deltaY > 0) {
       positionY += speed;
     } else {
