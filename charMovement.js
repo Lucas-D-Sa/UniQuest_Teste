@@ -8,7 +8,7 @@ const zoomLevel = window.devicePixelRatio;
 
 // Velocidades diferentes
 const speedArrow = zoomLevel * 100; 
-const speedTouch = zoomLevel * 0.05; 
+const speedTouch = zoomLevel * 0.1; 
 
 // Dimensões do background
 const backgroundWidth = 1280;
