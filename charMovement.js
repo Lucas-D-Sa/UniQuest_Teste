@@ -6,7 +6,7 @@ let isFlipped = false;
 
 const zoomLevel = window.devicePixelRatio;
 
-const speed = zoomLevel * 2; 
+const speed = zoomLevel * 15; 
 
 // Dimensões do background
 const backgroundWidth = 1280;
