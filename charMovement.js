@@ -20,21 +20,17 @@ const characterHeight = 20;
 
 console.log("Nível de Zoom: " + zoomLevel);
 
-// Adiciona eventos de tecla
 document.addEventListener('keydown', handleKeyDown);
 
-// Adiciona eventos de toque
 document.addEventListener('touchstart', handleTouchStart, { passive: false });
 document.addEventListener('touchmove', handleTouchMove, { passive: false });
 
-// Impede o comportamento padrão do toque e adiciona estilos para desativar os gestos do navegador
 document.addEventListener('touchmove', (event) => {
   event.preventDefault();
 }, { passive: false });
 
 document.body.style.touchAction = 'none';
 
-// Função para lidar com eventos de tecla
 function handleKeyDown(event) {
   if (event.key === 'ArrowLeft') {
     isFlipped = true;
@@ -50,12 +46,10 @@ function handleKeyDown(event) {
     positionY = Math.min(backgroundHeight - characterHeight, positionY + speedArrow);
   }
 
-  // Atualiza a posição do personagem
   image.style.left = positionX + 'px';
   image.style.top = positionY + 'px';
 }
 
-// Funções para lidar com eventos de toque
 let touchStartX = 0;
 let touchStartY = 0;
 
