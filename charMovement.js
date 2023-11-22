@@ -6,7 +6,9 @@ let isFlipped = false;
 
 const zoomLevel = window.devicePixelRatio;
 
-const speed = zoomLevel * 15; 
+// Velocidades diferentes
+const speedArrow = zoomLevel * 100; 
+const speedTouch = zoomLevel * 10; 
 
 // Dimensões do background
 const backgroundWidth = 1280;
@@ -18,8 +20,29 @@ const characterHeight = 20;
 
 console.log("Nível de Zoom: " + zoomLevel);
 
+document.addEventListener('keydown', handleKeyDown);
+
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
+
+function handleKeyDown(event) {
+  if (event.key === 'ArrowLeft') {
+    isFlipped = true;
+    image.style.transform = 'scaleX(-1)';
+    positionX = Math.max(0, positionX - speedArrow);
+  } else if (event.key === 'ArrowRight') {
+    isFlipped = false;
+    image.style.transform = 'scaleX(1)';
+    positionX = Math.min(backgroundWidth - characterWidth, positionX + speedArrow);
+  } else if (event.key === 'ArrowUp') {
+    positionY = Math.max(0, positionY - speedArrow);
+  } else if (event.key === 'ArrowDown') {
+    positionY = Math.min(backgroundHeight - characterHeight, positionY + speedArrow);
+  }
+
+  image.style.left = positionX + 'px';
+  image.style.top = positionY + 'px';
+}
 
 let touchStartX = 0;
 let touchStartY = 0;
@@ -38,8 +61,8 @@ function handleTouchMove(event) {
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
-  positionX += deltaX;
-  positionY += deltaY;
+  positionX += deltaX * speedTouch;
+  positionY += deltaY * speedTouch;
 
   positionX = Math.max(0, Math.min(positionX, backgroundWidth - characterWidth));
   positionY = Math.max(0, Math.min(positionY, backgroundHeight - characterHeight));
@@ -50,22 +73,3 @@ function handleTouchMove(event) {
   touchStartX = touchEndX;
   touchStartY = touchEndY;
 }
-
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'ArrowLeft') {
-    isFlipped = true;
-    image.style.transform = 'scaleX(-1)';
-    positionX = Math.max(0, positionX - speed);
-  } else if (event.key === 'ArrowRight') {
-    isFlipped = false;
-    image.style.transform = 'scaleX(1)';
-    positionX = Math.min(backgroundWidth - characterWidth, positionX + speed);
-  } else if (event.key === 'ArrowUp') {
-    positionY = Math.max(0, positionY - speed);
-  } else if (event.key === 'ArrowDown') {
-    positionY = Math.min(backgroundHeight - characterHeight, positionY + speed);
-  }
-
-  image.style.left = positionX + 'px';
-  image.style.top = positionY + 'px';
-});
