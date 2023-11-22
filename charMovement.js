@@ -6,7 +6,15 @@ let isFlipped = false;
 
 const zoomLevel = window.devicePixelRatio;
 
-const speed = zoomLevel * 2; 
+const speed = zoomLevel * 0.5; 
+
+// Dimensões do background
+const backgroundWidth = 1280;
+const backgroundHeight = 1280;
+
+// Dimensões do personagem
+const characterWidth = 12;
+const characterHeight = 20;
 
 console.log("Nível de Zoom: " + zoomLevel);
 
@@ -30,25 +38,11 @@ function handleTouchMove(event) {
   const deltaX = touchEndX - touchStartX;
   const deltaY = touchEndY - touchStartY;
 
-  if (Math.abs(deltaX) > Math.abs(deltaY)) {
-  
-    if (deltaX > 0) {
-      isFlipped = false;
-      image.style.transform = 'scaleX(1)';
-      positionX += speed;
-    } else {
-      isFlipped = true;
-      image.style.transform = 'scaleX(-1)';
-      positionX -= speed;
-    }
-  } else {
-    
-    if (deltaY > 0) {
-      positionY += speed;
-    } else {
-      positionY -= speed;
-    }
-  }
+  positionX += deltaX;
+  positionY += deltaY;
+
+  positionX = Math.max(0, Math.min(positionX, backgroundWidth - characterWidth));
+  positionY = Math.max(0, Math.min(positionY, backgroundHeight - characterHeight));
 
   image.style.left = positionX + 'px';
   image.style.top = positionY + 'px';
@@ -61,15 +55,15 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowLeft') {
     isFlipped = true;
     image.style.transform = 'scaleX(-1)';
-    positionX -= speed;
+    positionX = Math.max(0, positionX - speed);
   } else if (event.key === 'ArrowRight') {
     isFlipped = false;
     image.style.transform = 'scaleX(1)';
-    positionX += speed;
+    positionX = Math.min(backgroundWidth - characterWidth, positionX + speed);
   } else if (event.key === 'ArrowUp') {
-    positionY -= speed;
+    positionY = Math.max(0, positionY - speed);
   } else if (event.key === 'ArrowDown') {
-    positionY += speed;
+    positionY = Math.min(backgroundHeight - characterHeight, positionY + speed);
   }
 
   image.style.left = positionX + 'px';
