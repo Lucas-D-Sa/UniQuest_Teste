@@ -22,9 +22,16 @@ console.log("Nível de Zoom: " + zoomLevel);
 
 document.addEventListener('keydown', handleKeyDown);
 
-document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchmove', handleTouchMove, false);
+document.addEventListener('touchstart', handleTouchStart, { passive: false });
+document.addEventListener('touchmove', handleTouchMove, { passive: false });
 
+document.addEventListener('touchmove', (event) => {
+  event.preventDefault();
+}, { passive: false });
+
+document.body.style.touchAction = 'none';
+
+// Função para lidar com eventos de tecla
 function handleKeyDown(event) {
   if (event.key === 'ArrowLeft') {
     isFlipped = true;
