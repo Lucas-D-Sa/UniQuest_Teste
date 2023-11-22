@@ -8,7 +8,7 @@ const zoomLevel = window.devicePixelRatio;
 
 // Velocidades diferentes
 const speedArrow = zoomLevel * 100; 
-const speedTouch = zoomLevel * 0.1; 
+const speedTouch = zoomLevel * 0.15; 
 
 // Dimensões do background
 const backgroundWidth = 1280;
@@ -34,11 +34,11 @@ document.body.style.touchAction = 'none';
 function handleKeyDown(event) {
   if (event.key === 'ArrowLeft') {
     isFlipped = true;
-    image.style.transform = `scaleX(-1) rotate(0deg)`;
+    image.style.transform = `scaleX(-1)`;
     positionX = Math.max(0, positionX - speedArrow);
   } else if (event.key === 'ArrowRight') {
     isFlipped = false;
-    image.style.transform = `scaleX(1) rotate(0deg)`;
+    image.style.transform = `scaleX(1)`;
     positionX = Math.min(backgroundWidth - characterWidth, positionX + speedArrow);
   } else if (event.key === 'ArrowUp') {
     positionY = Math.max(0, positionY - speedArrow);
@@ -70,10 +70,13 @@ function handleTouchMove(event) {
   positionX += deltaX * speedTouch;
   positionY += deltaY * speedTouch;
 
-  const angle = Math.atan2(deltaY, deltaX);
-  const rotation = angle * (180 / Math.PI);
-
-  image.style.transform = `scaleX(${isFlipped ? -1 : 1}) rotate(${rotation}deg)`;
+  if (deltaX < 0) {
+    isFlipped = true;
+    image.style.transform = `scaleX(-1)`;
+  } else if (deltaX > 0) {
+    isFlipped = false;
+    image.style.transform = `scaleX(1)`;
+  }
 
   positionX = Math.max(0, Math.min(positionX, backgroundWidth - characterWidth));
   positionY = Math.max(0, Math.min(positionY, backgroundHeight - characterHeight));
