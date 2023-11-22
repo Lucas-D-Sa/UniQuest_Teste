@@ -70,9 +70,10 @@ function handleTouchMove(event) {
   positionX += deltaX * speedTouch;
   positionY += deltaY * speedTouch;
 
-  const rotation = isFlipped ? '180deg' : '0deg';
+  const angle = Math.atan2(deltaY, deltaX);
+  const rotation = angle * (180 / Math.PI);
 
-  image.style.transform = `scaleX(${isFlipped ? -1 : 1}) rotate(${rotation})`;
+  image.style.transform = `scaleX(${isFlipped ? -1 : 1}) rotate(${rotation}deg)`;
 
   positionX = Math.max(0, Math.min(positionX, backgroundWidth - characterWidth));
   positionY = Math.max(0, Math.min(positionY, backgroundHeight - characterHeight));
